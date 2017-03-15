@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+from analyzer import Analyzer
+from termcolor import colored
+from helpers import get_user_timeline
+
+def main():
+    
+    # ensure proper usage
+    if len(sys.argv) != 2:
+        sys.exit("Usage: ./tweets screen_name")
+    
+    # validate screen_name
+    screen_name = sys.argv[1].lstrip("@")
+    if not screen_name:
+        sys.exit("Usage: ./tweets screen_name")
+    
+    # absolute paths to lists
+    positives = os.path.join(sys.path[0], "positive-words.txt")
+    negatives = os.path.join(sys.path[0], "negative-words.txt")
+    
+    # instantiate analyzer    
+    analyzer = Analyzer(positives, negatives)
+        
+    # initialize scores
+    positive, negative, neutral, score = 0.0, 0.0, 0.0, 0.0
+    
+    # query API for tweets
+    timeline = get_user_timeline(screen_name=screen_name, count=50)
+    
+    print(timeline)
+
+    # analyze tweets
+    if timeline is not None:
+        for tweet in timeline:
+            
+            # analyse the tweet score
+            score = analyzer.analyze(tweet)
+            
+            # increment sentiment counter according to score
+            if score > 0.0:
+                print(colored('{} {}'.format(score, tweet), "green"))
+                positive += 1
+            elif score < 0.0:
+                print(colored('{} {}'.format(score, tweet), "red"))
+                negative += 1
+            else:
+                print(colored('{} {}'.format(score, tweet), "yellow"))
+                neutral += 1
+        
+if __name__ == ("__main__"):
+    main()
+    

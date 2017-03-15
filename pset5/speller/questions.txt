@@ -1,0 +1,53 @@
+0.  Pneumonoultramicroscopicsilicovolcanoconiosis is the longest word in the English language published in a dictionary, 
+it refers to a lung disease that is otherwise known as silicosis.
+
+1.  According to its man page, getrusage returns resource usage measures resource usage statistics for either:
+- the calling process, its children or a thread
+- all children of the calling process that have terminated and been waited for
+- resource usage statistics for the calling thread
+
+2.  According to the same man page, a variable of type struct rusage has 16 members:
+struct rusage {
+               struct timeval ru_utime; /* user CPU time used */
+               struct timeval ru_stime; /* system CPU time used */
+               long   ru_maxrss;        /* maximum resident set size */
+               long   ru_ixrss;         /* integral shared memory size */
+               long   ru_idrss;         /* integral unshared data size */
+               long   ru_isrss;         /* integral unshared stack size */
+               long   ru_minflt;        /* page reclaims (soft page faults) */
+               long   ru_majflt;        /* page faults (hard page faults) */
+               long   ru_nswap;         /* swaps */
+               long   ru_inblock;       /* block input operations */
+               long   ru_oublock;       /* block output operations */
+               long   ru_msgsnd;        /* IPC messages sent */
+               long   ru_msgrcv;        /* IPC messages received */
+               long   ru_nsignals;      /* signals received */
+               long   ru_nvcsw;         /* voluntary context switches */
+               long   ru_nivcsw;        /* involuntary context switches */
+           };
+
+3.  Both before and after are passed by reference so that the the variable themselves are used for tracking usage instead of creating
+copies, as would happened if passed by value. So these variables are the same, allowing them to be track over runtime. 
+
+4.  The for loop in main goes reading words from a file by checking each individual charachter using getc untif end of file is 
+reached (EOF). 
+
+The first if statement checks whether the char is an alphabetical letter of an apostrophe, if so it appends the character to the 
+current word being created at its index, then increments the index in preparation for the next character. If the index exceeds the
+maximum size defined by the longest word in the english dictionary, then it consumes the remaining char in the current string and to 
+move on to the next word in file.
+
+The second if statement, an else if, takes care of the case when the char being read is a number, and skips to the next word in file.
+
+The last if statetment, an else if as well, identifies whether a word is complete being read from file and calls check to verify if
+this word exist in the given dictionary, otherwise increases the count of misspellings and outputs to word to the console. 
+
+5.  Here we need to use getc instead of fscanf to read a full word at time, because of the format of the text being different from
+one another, which is not the case with the dictionnary files. Each text file uses different punctuation, which we do not want to 
+risk including in our words to be checked. We only want alphabetical charachters and the apostrophe to be recorded as words to be
+checks, not any other punctuation they may be read if we were to use fscanf.
+
+6.  The parameters for check and load are declared as const so that the array of char passed as argument is immutable just as
+a string would be. In fact a string an immutable array of char. A string or immutable array of char implicitly ends with '\0' 
+which allows us to use this feature in our loops for find the end of end word without having to use functions such as strlen, which
+may have an impact on performances. 

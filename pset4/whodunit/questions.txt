@@ -1,0 +1,12 @@
+1.  stdint.h is a header file in the C standard library introduced in the C99 standard library section 7.18 to allow programmers to write more portable code by providing a set of typedefs, such uit8_t, uint32_t, int32_t and uit16_t
+2.  uit8_t, uint32_t, int32_t and uit16_t specify exact-width integer types, together with the defined minimum and maximum allowable values for each type
+3.  BYTE = 1 byte, DWORD = 4 bytes, LONG = 4 bytes, WORD = 2 bytes
+4.  The first two bytes of a BMP file should be BM (ASCII), equivalent to 19778 (Decimal) and 4d42 (Hexadecimal)
+5.  bfSize is the size of BITMAPFILEHEADER, biSize is the size of BITMAPINFOHEADER
+6.  If biHeight is negative, the bitmap is a top-down DIB with the origin at the upper left corner.
+7.  biBitCount specifies the number of bits per pixel (bpp).
+8.  fopen returns a pointer to the open file. A null pointer value indicates an error. If filename or mode is NULL or an empty string, meaning that the parameter filename is invalid.
+9.  The third argument of fread if count, it corresponds to the maximum number of items to be read, in our case we always read items one by one.
+10. If bi.biWidth is 3 then copy.c assigns 3 to the padding, since 3 x size of triple is 9, we need 3 more bytes of padding to reach a width of 12 which is multiple of 4.
+11. The fseek function moves the file pointer (if any) associated with stream to a new location that is offset bytes from origin.
+12. SEEK_CUR is the current position of file pointer.
